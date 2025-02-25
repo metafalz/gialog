@@ -10,17 +10,6 @@ export default function Layout({ children }: { children: ReactNode }) {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <header className="container mx-auto max-w-2xl px-8 py-12">
-        <nav>
-          <p>
-            <Link href="/">
-              <a className="font-bold text-gray-900 visited:text-gray-900 dark:text-gray-300 dark:visited:text-gray-300">
-                {siteTitle}
-              </a>
-            </Link>
-          </p>
-        </nav>
-      </header>
       <main className="container mx-auto max-w-2xl px-8 py-12 shadow-md bg-white dark:bg-gray-900">
         {children}
       </main>
