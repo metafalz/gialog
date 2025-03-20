@@ -7,10 +7,20 @@ import remarkGithub from "remark-github";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
+import {
+  extractDescription,
+  extractImageUrl,
+} from "./remarkPlugins";
 
 export type Issue = any;
 
 export type IssueComment = any;
+
+type RenderResult = {
+  description: string | null;
+  imageUrl: string | null;
+  bodyHTML: string;
+};
 
 const dataDirectoryPath = process.env.DATA_DIRECTORY_PATH || "./data";
 
@@ -19,10 +29,10 @@ export async function getIssue({ issueNumber }: { issueNumber: number }) {
   const content = fs.readFileSync(filePath, { encoding: "utf-8" });
   const issueMatter = matter(content);
   const body = issueMatter.content;
-  const bodyHTML = await renderMarkdown(body);
+  const renderResult = await renderMarkdown(body);
   return {
     body,
-    bodyHTML,
+    ...renderResult,
     ...issueMatter.data,
   };
 }
@@ -56,10 +66,10 @@ export async function listIssueComments({
       const content = fs.readFileSync(filePath, { encoding: "utf-8" });
       const issueMatter = matter(content);
       const body = issueMatter.content;
-      const bodyHTML = await renderMarkdown(body);
+      const renderResult = await renderMarkdown(body);
       return {
         body,
-        bodyHTML,
+        ...renderResult,
         ...issueMatter.data,
       };
     })
@@ -77,7 +87,7 @@ function byCreatedAt(a: any, b: any) {
   }
 }
 
-async function renderMarkdown(content: string) {
+async function renderMarkdown(content: string): Promise<RenderResult> {
   const result = await remark()
     .use(remarkParse)
     .use(remarkGfm)
@@ -87,6 +97,13 @@ async function renderMarkdown(content: string) {
     .use(remarkRehype)
     .use(rehypeStringify)
     .use(remarkGfm)
+    .use(extractDescription as any)
+    .use(extractImageUrl as any)
     .process(content);
-  return result.toString();
+  const data = result.data as any;
+  return {
+    description: data.description || null,
+    imageUrl: data.imageUrl || null,
+    bodyHTML: result.toString(),
+  };
 }

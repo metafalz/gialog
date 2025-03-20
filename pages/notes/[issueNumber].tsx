@@ -1,5 +1,5 @@
+import CustomHead from "../../components/CustomHead";
 import type { NextPage } from "next";
-import Head from "next/head";
 import Link from "next/link";
 import {
   getIssue,
@@ -18,10 +18,13 @@ type Props = {
 const ShowArticle: NextPage<Props> = ({ issue, issueComments }) => {
   return (
     <div className="divide-y divide-gray-300 dark:divide-gray-700">
-      <Head>
-        <title>{issue.title}</title>
-      </Head>
       <article className="markdown">
+        <CustomHead
+          description={issue.description}
+          imageUrl={issue.imageUrl}
+          ogType="article"
+          title={issue.title}
+        />
         <header>
           <Time dateTime={issue.created_at} />
           <h1>{issue.title}</h1>

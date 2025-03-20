@@ -1,13 +1,9 @@
-import Head from "next/head";
 import Link from "next/link";
 import { type ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
-      <Head>
-        <title>note ――書け、抜け、学べ。</title>
-      </Head>
       <header className="container mx-auto max-w-2xl px-8 py-12">
         <nav>
           <p>
