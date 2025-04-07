@@ -96,7 +96,6 @@ async function renderMarkdown(content: string): Promise<RenderResult> {
     })
     .use(remarkRehype)
     .use(rehypeStringify)
-    .use(remarkGfm)
     .use(extractDescription as any)
     .use(extractImageUrl as any)
     .process(content);
