@@ -15,13 +15,19 @@ type Props = {
   issueComments: Array<IssueComment>;
 };
 
+const ogpImage = (body: string) => {
+  const image = body.match(/\((http[s]*.+\.(?:png|jpg|jpeg|gif))?(| ".*")\)/i);
+  return image ? image[1] : null;
+};
+
 const ShowArticle: NextPage<Props> = ({ issue, issueComments }) => {
+  const imageUrl = ogpImage(issue.body);
   return (
     <div className="divide-y divide-gray-300 dark:divide-gray-700">
       <article className="markdown">
         <CustomHead
           description={issue.description}
-          imageUrl={issue.imageUrl}
+          imageUrl={imageUrl}
           ogType="article"
           title={issue.title}
         />

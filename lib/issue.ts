@@ -7,10 +7,7 @@ import remarkGithub from "remark-github";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
-import {
-  extractDescription,
-  extractImageUrl,
-} from "./remarkPlugins";
+import { extractDescription } from "./remarkPlugins";
 
 export type Issue = any;
 
@@ -18,7 +15,6 @@ export type IssueComment = any;
 
 type RenderResult = {
   description: string | null;
-  imageUrl: string | null;
   bodyHTML: string;
 };
 
@@ -97,12 +93,10 @@ async function renderMarkdown(content: string): Promise<RenderResult> {
     .use(remarkRehype)
     .use(rehypeStringify)
     .use(extractDescription as any)
-    .use(extractImageUrl as any)
     .process(content);
   const data = result.data as any;
   return {
     description: data.description || null,
-    imageUrl: data.imageUrl || null,
     bodyHTML: result.toString(),
   };
 }
