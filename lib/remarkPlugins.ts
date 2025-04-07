@@ -1,4 +1,4 @@
-import { select, selectAll } from "unist-util-select";
+import { selectAll } from "unist-util-select";
 
 export function extractDescription() {
   return (tree: any, file: any) => {
@@ -13,15 +13,6 @@ export function extractDescription() {
       if (segments.length >= 2) {
         file.data.description = `${segments[0]}。`.substring(0, 140);
       }
-    }
-  };
-}
-
-export function extractImageUrl() {
-  return (tree: any, file: any) => {
-    const image = select("image", tree) as any;
-    if (image) {
-      file.data.imageUrl = image.url;
     }
   };
 }
