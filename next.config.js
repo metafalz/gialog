@@ -4,6 +4,14 @@ const nextConfig = {
   //   ? `/${process.env.GITHUB_REPOSITORY.split("/")[1]}`
   //   : "",
   reactStrictMode: true,
+  async rewrites() {
+    return [
+      {
+        destination: "/api/feed",
+        source: "/feed.xml",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
