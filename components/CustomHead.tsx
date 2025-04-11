@@ -19,22 +19,38 @@ export default function CustomHead({
 }: Props) {
   const canonicalUrl = `${settings.siteBaseUrl}${useRouter().asPath}`;
   return (
-    <Head>
-      <title>{title}</title>
-      <link href={canonicalUrl} rel="canonical"></link>
-      <meta name="description" content={description || ""} />
-      <meta name="og:description" content={description || ""} />
-      <meta name="og:title" content={title} />
-      <meta name="og:type" content={ogType} />
-      <meta name="og:url" content={canonicalUrl} />
-      <meta
-        name="og:image"
-        content={imageUrl || `${settings.siteBaseUrl}/default_og_image.jpg`}
+    <>
+      <Head>
+        <title>{title}</title>
+        <link href={canonicalUrl} rel="canonical"></link>
+        <meta name="description" content={description || ""} />
+        <meta name="og:description" content={description || ""} />
+        <meta name="og:title" content={title} />
+        <meta name="og:type" content={ogType} />
+        <meta name="og:url" content={canonicalUrl} />
+        <meta
+          name="og:image"
+          content={imageUrl || `${settings.siteBaseUrl}/default_og_image.jpg`}
+        />
+        <meta
+          property="twitter:card"
+          content={imageUrl ? "summary_large_image" : "summary"}
+        />
+      </Head>
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-68VRW32929"
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-68VRW32929');
+          `,
+        }}
       />
-      <meta
-        property="twitter:card"
-        content={imageUrl ? "summary_large_image" : "summary"}
-      />
-    </Head>
+    </>
   );
 }
